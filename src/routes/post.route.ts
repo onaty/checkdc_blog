@@ -8,5 +8,6 @@ import { AuthenticateUserToken } from '../middleware/token';
 // routes
 router.post('/createpost', [AuthenticateUserToken],  postCtrl.createPost);
 router.get('/fetchallposts', postCtrl.paginatePosts);
+router.post('/comment', [AuthenticateUserToken],  postCtrl.commentOnPosts);
 
 export default router;

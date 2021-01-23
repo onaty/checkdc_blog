@@ -1,4 +1,5 @@
-import { createPostReq } from "../datamodels/post.model";
+import { createPostReq, postCommentsReq } from "../datamodels/post.model";
+import Comments from "../models/Comments";
 import Post from "../models/Post";
 import { DBUser } from "../models/User";
 
@@ -14,6 +15,24 @@ export const createNewPost = async (data: createPostReq, userdata: DBUser) => {
     return newPost;
 };
 
+// fetch post via ID
+export const fetchPostViaID = async (id: string) => {
+    const post = await Post.findOne({ _id: id });
+    return post;
+};
+
+// create a new comment
+export const createNewComment = async (data: postCommentsReq, userdata: DBUser) => {
+
+    const post = new Comments({
+        comment:data.comment,
+        post:data.postId,
+        user: userdata._id
+    });
+    const newPost = await post.save();
+    return newPost;
+};
+
 // fetch all investments
 export const fetchAllPosts = async (data: any) => {
 
@@ -22,12 +41,12 @@ export const fetchAllPosts = async (data: any) => {
 
 
     const allPosts = await Post.find({}).skip((page - 1) * limit).limit(limit).
-    populate(
-        {
-            path: 'createdby',
-            select: '-password -createdAtDate -updatedAtDate -visible -createdAt -updatedAt'
-        }
-    );
+        populate(
+            {
+                path: 'createdby',
+                select: '-password -createdAtDate -updatedAtDate -visible -createdAt -updatedAt'
+            }
+        );
     return allPosts;
 };
 

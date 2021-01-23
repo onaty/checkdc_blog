@@ -17,11 +17,11 @@ const commentsSchema: Schema = new Schema({
 }, {
   timestamps: { currentTime: () => Date.now() }
 });
-const Comment = mongoose.model("Comment", commentsSchema);
-export default Comment;
+const Comments = mongoose.model("Comments", commentsSchema);
+export default Comments;
 
 
-export interface DBComment {
+export interface DBComments {
   _id: string;
   comment?: string;
   user?: string | DBUser;

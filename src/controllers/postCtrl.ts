@@ -1,8 +1,8 @@
 
 import { LogError } from "../components/helperComponent";
-import { countAllposts, createNewPost, fetchAllPosts } from "../components/postComment";
-import { createPostReq } from "../datamodels/post.model";
-import { createPostSchema } from "../middleware/validation";
+import { countAllposts, createNewComment, createNewPost, fetchAllPosts, fetchPostViaID } from "../components/postComment";
+import { createPostReq, postCommentsReq } from "../datamodels/post.model";
+import { createPostSchema, postCommentSchema } from "../middleware/validation";
 import { DBPost } from "../models/Post";
 import { DBUser } from "../models/User";
 
@@ -49,6 +49,36 @@ export const paginatePosts = async (req: any, res: any) => {
                 totalItem: countAll,
                 totalPages: Math.ceil(countAll / limit),
             }
+        });
+    } catch (error) {
+        LogError(error, "createPost")
+        if (error.isJoi) return res.status(400).json({ status: 'error', message: error.details[0].message });
+    }
+};
+
+// Any user should be able to view all posts
+export const commentOnPosts = async (req: any, res: any) => {
+    try {
+        let commentData: postCommentsReq = req.body;
+        let user: DBUser = req.user;
+        // Validate form
+        await postCommentSchema.validateAsync(commentData);
+
+        let postData = await fetchPostViaID(commentData.postId)
+
+        if (!postData) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'You can\'t comment on a post that doesn\'t exist',
+            });
+        }
+
+        let newComment = await createNewComment(commentData, user)
+        // return
+        res.status(200).json({
+            status: 'success',
+            message: "New post created successfully.",
+            newComment
         });
     } catch (error) {
         LogError(error, "createPost")

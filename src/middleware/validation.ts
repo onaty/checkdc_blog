@@ -19,3 +19,8 @@ export const createPostSchema = Joi.object({
   title: Joi.string().min(6).required(),
   description: Joi.string().min(6).required(),
 });
+
+export const postCommentSchema = Joi.object({
+  comment: Joi.string().min(1).required(),
+  postId: Joi.string().required(),
+});
