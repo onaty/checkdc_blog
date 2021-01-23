@@ -7,6 +7,7 @@ let postSchema: Schema = new Schema({
   description: {
     type: String, required: true, max: 1055, min: 6,
   },
+  likecount: { type: Number, default: 0 },
   createdby: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: { type: Number },
   updatedAt: { type: Number },
@@ -18,7 +19,7 @@ let postSchema: Schema = new Schema({
   timestamps: { currentTime: () => Date.now() }
 });
 
-const Post:any = mongoose.model("Post", postSchema);
+const Post: any = mongoose.model("Post", postSchema);
 export default Post;
 
 export interface DBPost {
@@ -30,4 +31,5 @@ export interface DBPost {
   createdAtDate?: string;
   updatedAtDate?: string;
   visible?: string;
+  likecount: number;
 }

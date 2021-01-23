@@ -24,3 +24,8 @@ export const postCommentSchema = Joi.object({
   comment: Joi.string().min(1).required(),
   postId: Joi.string().required(),
 });
+
+export const likesSchema = Joi.object({
+  like: Joi.boolean().required(),
+  id: Joi.string().required(),
+});

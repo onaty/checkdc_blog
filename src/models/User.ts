@@ -15,6 +15,7 @@ const userSchema: Schema = new Schema({
   },
   createdAt: { type: Number },
   updatedAt: { type: Number },
+  loginCount:{ type: Number, default:0 },
   createdAtDate: { type: Date, default:new Date() },
   updatedAtDate: { type: Date , default:new Date()},
   visible: { type: Boolean, default: true },
@@ -29,13 +30,14 @@ export default User;
 
 export interface DBUser{
   _id:string;
-  firstname?:string;
-  lastname?:string;
-  email?:string;
-  password?:string;
-  createdAt?:number;
-  updatedAt?:number;
-  createdAtDate?:string;
-  updatedAtDate?:string;
-  visible?:string;
+  firstname:string;
+  lastname:string;
+  email:string;
+  password:string;
+  createdAt:number;
+  updatedAt:number;
+  createdAtDate:string;
+  updatedAtDate:string;
+  visible:string;
+  loginCount:number;
 }

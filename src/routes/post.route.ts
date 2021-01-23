@@ -9,5 +9,8 @@ import { AuthenticateUserToken } from '../middleware/token';
 router.post('/createpost', [AuthenticateUserToken],  postCtrl.createPost);
 router.get('/fetchallposts', postCtrl.paginatePosts);
 router.post('/comment', [AuthenticateUserToken],  postCtrl.commentOnPosts);
+router.post('/likeposts', [AuthenticateUserToken],  postCtrl.likeaPosts);
+
+router.post('/likecomments', [AuthenticateUserToken],  postCtrl.likeaComments);
 
 export default router;

@@ -20,12 +20,14 @@ import {
     createAccount,
     fetchProfileByEmail,
     OmitPassword,
+    updateLoginCount,
     validateEmail,
     validateUserPassword,
 } from '../components/authComponent';
 import { SignupReq } from '../datamodels/user.model';
 import { AppConfig } from '../config/config';
 import { LogError } from '../components/helperComponent';
+import { DBUser } from '../models/User';
 
 // login User
 export const login = async (req: Request, res: Response) => {
@@ -34,7 +36,7 @@ export const login = async (req: Request, res: Response) => {
         await loginSchema.validateAsync(req.body);
 
         //check email login
-        const user: any = await validateEmail(req.body.email);
+        let user = await validateEmail(req.body.email);
         if (!user) {
             return res.status(400).json({
                 status: 'error',
@@ -48,12 +50,19 @@ export const login = async (req: Request, res: Response) => {
             return res.status(400).json({ status: 'error', message: 'Invalid Email and Password' });
         }
 
+        user = await updateLoginCount(user._id, user.loginCount);
+        user =  OmitPassword(user)
         // Json Web Token
         const token = jwt.sign({ email: user.email }, AppConfig.tokenSecret);
 
         // return
         res.status(200).json({
-            status: 'success', user, token, message: 'Logged in successfully',
+            status: 'success',
+            message: 'Logged in successfully',
+            data: {
+                token,
+                user
+            },
         });
     } catch (error) {
         if (error.isJoi) return res.status(400).json({ status: 'error', message: error.details[0].message });
