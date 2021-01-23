@@ -25,3 +25,17 @@ const userSchema: Schema = new Schema({
 });
 const User = mongoose.model("User", userSchema);
 export default User;
+
+
+export interface DBUser{
+  _id:string;
+  firstname?:string;
+  lastname?:string;
+  email?:string;
+  password?:string;
+  createdAt?:number;
+  updatedAt?:number;
+  createdAtDate?:string;
+  updatedAtDate?:string;
+  visible?:string;
+}

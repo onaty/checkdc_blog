@@ -1,6 +1,4 @@
-export interface SignupReq{
-    firstname:string;
-    lastname: string;
-    email: string;
-    password:string;
+export interface createPostReq{
+    title:string;
+    description: string;
 }

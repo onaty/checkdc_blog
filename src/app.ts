@@ -14,7 +14,8 @@ connect(db);
 const router = express.Router();
 
 // routes
-import auth from './routes/auth';
+import authroutes from './routes/auth.route';
+import postroutes from './routes/post.route';
 
 const app: Application = express();
 
@@ -31,7 +32,8 @@ app.use(function (req, res, next) {
     next()
 })
 // routes
-app.use('/v1/auth', auth);
+app.use('/v1/auth', authroutes);
+app.use('/v1/post', postroutes);
 
 // server
 const PORT = process.env.PORT;

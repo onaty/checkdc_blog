@@ -27,9 +27,6 @@ import { SignupReq } from '../datamodels/user.model';
 import { AppConfig } from '../config/config';
 import { LogError } from '../components/helperComponent';
 
-// Token Secret
-const tokenSecret: any = process.env.TOKEN_SECRET;
-
 // login User
 export const login = async (req: Request, res: Response) => {
     try {
@@ -52,7 +49,7 @@ export const login = async (req: Request, res: Response) => {
         }
 
         // Json Web Token
-        const token = jwt.sign({ _id: user.id, type: user.type, company: user.company }, tokenSecret);
+        const token = jwt.sign({ email: user.email }, AppConfig.tokenSecret);
 
         // return
         res.status(200).json({
